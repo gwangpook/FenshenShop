@@ -2,8 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Prisma on modern Alpine needs OpenSSL available during generate/runtime.
-RUN apk add --no-cache openssl
+# Alpine needs OpenSSL for Prisma
+RUN apk add --no-cache openssl libc6-compat
 
 # Install dependencies
 COPY package*.json ./
@@ -11,14 +11,11 @@ COPY prisma ./prisma/
 
 RUN npm install
 
-# Fix permissions for prisma binary
-RUN chmod +x ./node_modules/.bin/prisma || true
-
 # Copy source
 COPY . .
 
-# Generate Prisma Client
-RUN ./node_modules/.bin/prisma generate
+# Generate Prisma Client using node directly (bypasses binary permission issues)
+RUN node node_modules/prisma/build/index.js generate
 
 # Build TypeScript
 RUN npm run build

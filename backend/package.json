@@ -6,13 +6,13 @@
   "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "npx prisma generate && tsc && npx tsc prisma/seed_permissions.ts --outDir dist/prisma --esModuleInterop --module NodeNext --moduleResolution NodeNext",
-    "start": "npx prisma db push && node dist/prisma/seed_permissions.js && node dist/src/server.js",
+    "build": "node node_modules/prisma/build/index.js generate && tsc && npx tsc prisma/seed_permissions.ts --outDir dist/prisma --esModuleInterop --module NodeNext --moduleResolution NodeNext",
+    "start": "node node_modules/prisma/build/index.js db push && node dist/prisma/seed_permissions.js && node dist/src/server.js",
     "seed": "tsx prisma/seed.ts",
     "seed:permissions": "tsx prisma/seed_permissions.ts",
-    "prisma:generate": "npx prisma generate",
-    "prisma:push": "npx prisma db push",
-    "prisma:studio": "npx prisma studio"
+    "prisma:generate": "node node_modules/prisma/build/index.js generate",
+    "prisma:push": "node node_modules/prisma/build/index.js db push",
+    "prisma:studio": "node node_modules/prisma/build/index.js studio"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
