@@ -11,11 +11,14 @@ COPY prisma ./prisma/
 
 RUN npm install
 
+# Fix permissions for prisma binary
+RUN chmod +x ./node_modules/.bin/prisma || true
+
 # Copy source
 COPY . .
 
 # Generate Prisma Client
-RUN npx prisma generate
+RUN ./node_modules/.bin/prisma generate
 
 # Build TypeScript
 RUN npm run build
