@@ -1,9 +1,9 @@
-FROM node:18-alpine
+FROM node:18-slim
 
 WORKDIR /app
 
-# Alpine needs OpenSSL for Prisma
-RUN apk add --no-cache openssl libc6-compat
+# Debian slim needs OpenSSL for Prisma
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies
 COPY package*.json ./
@@ -14,7 +14,7 @@ RUN npm install
 # Copy source
 COPY . .
 
-# Generate Prisma Client using node directly (bypasses binary permission issues)
+# Generate Prisma Client
 RUN node node_modules/prisma/build/index.js generate
 
 # Build TypeScript
@@ -25,3 +25,4 @@ EXPOSE 4000
 
 # Start command
 CMD ["npm", "start"]
+

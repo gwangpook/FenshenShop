@@ -6,7 +6,7 @@
   "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "node node_modules/prisma/build/index.js generate && tsc && npx tsc prisma/seed_permissions.ts --outDir dist/prisma --esModuleInterop --module NodeNext --moduleResolution NodeNext",
+    "build": "node node_modules/prisma/build/index.js generate && node node_modules/typescript/bin/tsc && node node_modules/typescript/bin/tsc prisma/seed_permissions.ts --outDir dist/prisma --esModuleInterop --module NodeNext --moduleResolution NodeNext",
     "start": "node node_modules/prisma/build/index.js db push && node dist/prisma/seed_permissions.js && node dist/src/server.js",
     "seed": "tsx prisma/seed.ts",
     "seed:permissions": "tsx prisma/seed_permissions.ts",
